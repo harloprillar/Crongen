@@ -18,8 +18,6 @@ if not options.interval:
   pars.print_help()
   raise SystemExit(0)
 
-dict_min = {}
-
 def addMin(date, min):
   ddate = date + timedelta(minutes=min)
   m = re.search('^[0-9]{4}-[0-9]{2}-([0-9]{2}) ([0-9]{2}):([0-9]{2})', str(ddate))
@@ -30,6 +28,7 @@ def addMin(date, min):
 
 date = datetime(1,1,1,options.start_hour,options.start_min)
 new = addMin(date, 0)
+dict_min = {}
 dict_min[options.start_min] = []
 dict_min[options.start_min].append(options.start_hour)
 
@@ -45,5 +44,4 @@ while 1:
 
 for i in dict_min:
   print( str(i) + " " + ",".join(str(x) for x in dict_min[i]) + " * * * " + options.command )
-
 
