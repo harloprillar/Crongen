@@ -83,4 +83,3 @@ for i in range(len(arr_h_norm)-1):
 
 for i in dict_min:
     printout(i, normalize(dict_min[i]))
-
