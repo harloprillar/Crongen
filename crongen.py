@@ -20,8 +20,8 @@ if not options.interval:
     raise SystemExit(0)
 
 
-def add_min(date, min):
-    ddate = date + timedelta(minutes=min)
+def add_min(date, minute):
+    ddate = date + timedelta(minutes=minute)
     day, hour, minute = (int(x) for x in re.findall('^[0-9]{4}-[0-9]{2}-([0-9]{2}) ([0-9]{2}):([0-9]{2})', str(ddate))[0])
     return day, hour, minute
 
@@ -38,7 +38,7 @@ while 1:
     if day == 2:
         break
 
-    if min not in dict_min:
+    if minute not in dict_min:
         dict_min[minute] = []
 
     dict_min[minute].append(hour)
