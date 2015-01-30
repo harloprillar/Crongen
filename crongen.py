@@ -3,7 +3,7 @@
 # Author:	harloprillar
 
 
-import re
+import re, sys
 from datetime import datetime, timedelta
 from optparse import OptionParser
 
@@ -34,8 +34,10 @@ def normalize(arr):
                 l = i
         if l != 0: 
             hours = str(arr[0])+"-"+str(arr[-1])
-            if 24-arr[-1] <= l:
+            if 24-arr[-1] <= l and arr[0] == 0:
                 hours = "*"
+            if l == 1:
+                return hours
             return hours+"/"+str(l)
             break
     return ",".join(str(x) for x in arr)
@@ -58,6 +60,20 @@ while 1:
     dict_min[minute].append(hour)
     date = date.replace(hour=hour, minute=minute)
     i = options.interval
+
+arr_h_norm=[]
+for i in dict_min:
+    arr_h_norm.append(normalize(dict_min[i]))
+
+for i in range(len(arr_h_norm)-1):
+    if arr_h_norm[i] != arr_h_norm[i+1]:
+        break
+    if i == len(arr_h_norm)-2:
+        arr_min = []
+        for i in dict_min:
+            arr_min.append(i)
+        print(normalize(sorted(arr_min)) + " " +arr_h_norm[0]+ " * * * " + options.command)
+        sys.exit(0)
 
 for i in dict_min:
     print(str(i) + " " +normalize(dict_min[i])+ " * * * " + options.command)
