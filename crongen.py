@@ -19,12 +19,26 @@ if not options.interval:
     pars.print_help()
     raise SystemExit(0)
 
-
 def add_min(date, minute):
     ddate = date + timedelta(minutes=minute)
     day, hour, minute = (int(x) for x in re.findall('^[0-9]{4}-[0-9]{2}-([0-9]{2}) ([0-9]{2}):([0-9]{2})', str(ddate))[0])
     return day, hour, minute
 
+def normalize(arr):
+    l = 0
+    for i in range(1,12):
+        for j in range(len(arr)-1):
+            if arr[j]+i != arr[j+1]:
+                break
+            if arr[j] == arr[-2]:
+                l = i
+        if l != 0: 
+            hours = str(arr[0])+"-"+str(arr[-1])
+            if 24-arr[-1] <= l:
+                hours = "*"
+            return hours+"/"+str(l)
+            break
+    return ",".join(str(x) for x in arr)
 
 date = datetime(1, 1, 1, options.start_hour, options.start_min)
 new = add_min(date, 0)
@@ -46,5 +60,5 @@ while 1:
     i = options.interval
 
 for i in dict_min:
-    print(str(i) + " " + ",".join(str(x) for x in dict_min[i]) + " * * * " + options.command)
+    print(str(i) + " " +normalize(dict_min[i])+ " * * * " + options.command)
 
