@@ -3,13 +3,13 @@
 # Author:	harloprillar
 
 
-import re, sys
+import re
 from datetime import datetime, timedelta
 from optparse import OptionParser
 
 
 pars = OptionParser("usage: %prog -e INTERVAL [options]", add_help_option=False)
-pars.add_option("-e", "--every", type="int", dest="interval", help="interval in minutes to run command")
+pars.add_option("-e", "--every", type="int", dest="interval", metavar="MINUTES", help="interval in minutes to run command")
 pars.add_option("-c", "--command", type="string", dest="command", help="command to run")
 pars.add_option("-h", "--hour", type="int", dest="start_hour", default=0, help="start hour(default 0)")
 pars.add_option("-m", "--minute", type="int", dest="start_min", default=0, help="start minute(default 0)")
@@ -79,7 +79,7 @@ for i in range(len(arr_h_norm)-1):
         for i in dict_min:
             arr_min.append(i)
         printout(normalize(sorted(arr_min)), arr_h_norm[0])
-        sys.exit(0)
+        raise SystemExit(0)
 
 for i in dict_min:
     printout(i, normalize(dict_min[i]))
