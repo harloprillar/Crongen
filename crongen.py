@@ -17,7 +17,11 @@ pars.add_option("-m", "--minute", type="int", dest="start_min", default=0, help=
 
 if not options.interval:
     pars.print_help()
-    raise SystemExit(0)
+    raise SystemExit('\nError: interval not specified.')
+
+if options.interval > 1440:
+    pars.print_help()
+    raise SystemExit('\nError: interval must be less then 1440.')
 
 def add_min(date, minute):
     date = date + timedelta(minutes=minute)
@@ -57,7 +61,7 @@ while 1:
     new = add_min(date, i)
     day, hour, minute = (int(x) for x in new)
 
-    if day == 2:
+    if day >= 2:
         break
 
     if minute not in dict_min:
